@@ -24,6 +24,10 @@ http://opensource.org/licenses/mit-license.php
 #ifndef STBI_INCLUDE_STB_IMAGE_H
 # include "stb_image.h"
 #endif
+#include "opencv2/core.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/videoio.hpp"
 
 #ifndef UC_APNG_LOADER_NO_EXCEPTION
 # define UC_APNG_ASSERT(pred) if (!(pred)) throw uc::apng::exception(std::string(__func__).append(" : ").append(#pred).append(" failed."))
@@ -197,6 +201,7 @@ inline fcTL_payload_t parse_as_fcTL(const std::vector<uint8_t>& chunk)
 	if (data.delay_den == 0) {
 		data.delay_den = 100;
 	}
+	printf("%d %d %d %d %d %d", data.x_offset, data.y_offset, data.width, data.height,dispose,blend);
 	return data;
 }
 
@@ -244,6 +249,9 @@ public:
 		bin = stbi_ptr(stbi_load_from_memory(pngBinData.data(), static_cast<int>(pngBinData.size()), &w, &h, &d, STBI_rgb_alpha));
 		width_ = w;
 		height_ = h;
+		cv::Mat img(h, w, CV_8UC4, bin.get());
+        cv::cvtColor(img, img, cv::COLOR_RGBA2BGRA);
+        imshow("frame", img);
 		UC_APNG_ASSERT(d == BPP);
 	}
 

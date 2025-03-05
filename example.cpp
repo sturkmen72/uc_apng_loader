@@ -52,7 +52,7 @@ int main( int argc, const char** argv )
                 << " " << (frame.is_default ? "default " : " ") << "\n";
             imshow("Animation", animation.frames[i]);
             Mat img(frame.image.height(), frame.image.width(), CV_8UC4, frame.image.data());
-            cvtColor(img, img, COLOR_RGBA2BGRA);
+            //cvtColor(img, img, COLOR_RGBA2BGRA);
             imshow("uc", img);
             waitKey();
             i++;
